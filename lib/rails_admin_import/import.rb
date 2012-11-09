@@ -1,3 +1,4 @@
+# encoding: utf-8
 require 'open-uri'
 
 module RailsAdminImport
@@ -64,7 +65,7 @@ module RailsAdminImport
             logger = Logger.new("#{Rails.root}/log/import/import.log")
           end
 
-          text = File.read(params[:file].tempfile)
+          text = open(params[:file].tempfile, 'r:utf-8').read
           clean = text.gsub(/\n$/, '')
           file_check = CSV.new(clean)
 
