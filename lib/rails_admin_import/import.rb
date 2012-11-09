@@ -53,20 +53,24 @@ module RailsAdminImport
 
         attrs - RailsAdminImport.config(self).excluded_fields
       end
+      def logger
+        @logger ||= if RailsAdminImport.config.logging
+          Logger.new("#{Rails.root}/log/import/import.log")
+        else
+          Rails.logger
+        end
+      end
 
       def run_import(params)
         begin
+          FileUtils.copy(params[:file].tempfile, "#{Rails.root}/log/import/#{Time.now.strftime("%Y-%m-%d-%H-%M-%S")}-import.csv") if RailsAdminImport.config.logging
+
           if !params.has_key?(:file)
             return results = { :success => [], :error => ["You must select a file."] }
           end
 
-          if RailsAdminImport.config.logging
-            FileUtils.copy(params[:file].tempfile, "#{Rails.root}/log/import/#{Time.now.strftime("%Y-%m-%d-%H-%M-%S")}-import.csv")
-            logger = Logger.new("#{Rails.root}/log/import/import.log")
-          end
-
-          text = open(params[:file].tempfile, 'r:utf-8').read
-          clean = text.gsub(/\n$/, '')
+          text = File.read(params[:file].tempfile)
+          clean = text.strip
           file_check = CSV.new(clean)
 
           if file_check.readlines.size > RailsAdminImport.config.line_item_limit
@@ -128,7 +132,7 @@ module RailsAdminImport
 
           results
         rescue Exception => e
-          logger.info "#{Time.now.to_s}: Unknown exception in import: #{e.inspect}"
+          logger.info "#{Time.now.to_s}: Unknown exception in import: #{e.inspect} \n#{e.backtrace.join("\n")}"
           return results = { :success => [], :error => ["Could not upload. Unexpected error: #{e.to_s}"] }
         end
       end
