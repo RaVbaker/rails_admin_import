@@ -11,7 +11,7 @@ begin
     gem.name = "rails_admin_import"
     gem.summary = "Import functionality for rails admin"
     gem.email = "steph@endpoint.com"
-    gem.authors = ["Steph Skardal"]
+    gem.authors = ["Steph Skardal", "ravbaker@gmail.com"]
     gem.files = Dir["{lib}/**/*", "{app}/**/*", "{public}/**/*", "{config}/**/*"]
   end
   Jeweler::GemcutterTasks.new

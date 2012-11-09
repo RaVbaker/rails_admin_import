@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "rails_admin_import"
-  s.version = "0.1.8"
+  s.version = "0.1.9"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
-  s.authors = ["Steph Skardal"]
-  s.date = "2012-11-08"
+  s.authors = ["Steph Skardal", "ravbaker@gmail.com"]
+  s.date = "2012-11-09"
   s.email = "steph@endpoint.com"
   s.extra_rdoc_files = [
     "README.md"
@@ -26,7 +26,7 @@ Gem::Specification.new do |s|
     "lib/rails_admin_import/version.rb"
   ]
   s.require_paths = ["lib"]
-  s.rubygems_version = "1.8.11"
+  s.rubygems_version = "1.8.24"
   s.summary = "Import functionality for rails admin"
 
   if s.respond_to? :specification_version then
